@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.experimental.UtilityClass;
 import ru.practicum.shareit.item.dto.CommentDto;
@@ -15,12 +16,25 @@ public class ItemMapper {
             return null;
         }
         ItemDto dto = new ItemDto();
-        dto.setId(item.getId());
-        dto.setName(item.getName());
-        dto.setDescription(item.getDescription());
-        dto.setAvailable(item.isAvailable());
-        dto.setRequestId(item.getRequest() != null ? item.getRequest().getId() : null);
+        fillCommonFields(item, dto);
         dto.setComments(List.of());
+        return dto;
+    }
+
+    public static ItemDto toItemDto(
+        Item item,
+        LocalDateTime lastBooking,
+        LocalDateTime nextBooking,
+        List<CommentDto> comments
+    ) {
+        if (item == null) {
+            return null;
+        }
+        ItemDto dto = new ItemDto();
+        fillCommonFields(item, dto);
+        dto.setLastBooking(lastBooking);
+        dto.setNextBooking(nextBooking);
+        dto.setComments(comments != null ? comments : List.of());
         return dto;
     }
 
@@ -29,14 +43,31 @@ public class ItemMapper {
             return null;
         }
         ItemDetailsDto dto = new ItemDetailsDto();
-        dto.setId(item.getId());
-        dto.setName(item.getName());
-        dto.setDescription(item.getDescription());
-        dto.setAvailable(item.isAvailable());
-        dto.setRequestId(item.getRequest() != null ? item.getRequest().getId() : null);
+        fillCommonFields(item, dto);
         dto.setLastBooking(null);
         dto.setNextBooking(null);
         dto.setComments(List.of());
+        return dto;
+    }
+
+    public static ItemDetailsDto toItemDetailsDto(Item item, List<CommentDto> comments) {
+        return toItemDetailsDto(item, null, null, comments);
+    }
+
+    public static ItemDetailsDto toItemDetailsDto(
+        Item item,
+        LocalDateTime lastBooking,
+        LocalDateTime nextBooking,
+        List<CommentDto> comments
+    ) {
+        if (item == null) {
+            return null;
+        }
+        ItemDetailsDto dto = new ItemDetailsDto();
+        fillCommonFields(item, dto);
+        dto.setLastBooking(lastBooking);
+        dto.setNextBooking(nextBooking);
+        dto.setComments(comments != null ? comments : List.of());
         return dto;
     }
 
@@ -69,5 +100,21 @@ public class ItemMapper {
             item.setRequest(request);
         }
         return item;
+    }
+
+    private static void fillCommonFields(Item item, ItemDto dto) {
+        dto.setId(item.getId());
+        dto.setName(item.getName());
+        dto.setDescription(item.getDescription());
+        dto.setAvailable(item.isAvailable());
+        dto.setRequestId(item.getRequest() != null ? item.getRequest().getId() : null);
+    }
+
+    private static void fillCommonFields(Item item, ItemDetailsDto dto) {
+        dto.setId(item.getId());
+        dto.setName(item.getName());
+        dto.setDescription(item.getDescription());
+        dto.setAvailable(item.isAvailable());
+        dto.setRequestId(item.getRequest() != null ? item.getRequest().getId() : null);
     }
 }
