@@ -34,7 +34,7 @@ for _ in {1..60}; do
 
 printf 'Waiting for gateway on port 8080...\n'
 for _ in {1..60}; do
-  if curl -fsS http://localhost:8080/ >/dev/null 2>&1; then
+  if curl -fsS http://localhost:8080/users >/dev/null 2>&1; then
     break
   fi
   sleep 1
