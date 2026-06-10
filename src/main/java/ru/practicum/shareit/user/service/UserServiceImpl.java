@@ -36,6 +36,12 @@ public class UserServiceImpl implements UserService {
 
 		String name = userDto.getName() != null ? userDto.getName() : existing.getName();
 		String email = userDto.getEmail() != null ? userDto.getEmail() : existing.getEmail();
+		if (name.isBlank()) {
+			throw new IllegalArgumentException("User name must not be blank");
+		}
+		if (email.isBlank()) {
+			throw new IllegalArgumentException("User email must not be blank");
+		}
 		if (!email.equals(existing.getEmail()) && userRepository.findByEmail(email).isPresent()) {
 			throw new ConflictException("Email already exists");
 		}
@@ -60,9 +66,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void delete(Long userId) {
-		if (userRepository.findById(userId).isEmpty()) {
+		if (!userRepository.existsById(userId)) {
 			throw new NoSuchElementException("User not found");
 		}
-		userRepository.delete(userId);
+		userRepository.deleteById(userId);
 	}
 }
