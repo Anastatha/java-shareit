@@ -28,20 +28,18 @@ if ! docker compose up --build -d --wait --wait-timeout 180; then
 fi
 
 printf 'Waiting for server on port 9090...\n'
-for _ in {1..60}; do
-  if curl -fsS http://localhost:9090/actuator/health >/dev/null 2>&1; then
-    break
-  fi
-  sleep 1
- done
+curl -fsS --retry 120 --retry-connrefused --retry-delay 1 http://localhost:9090/actuator/health >/dev/null || {
+  echo 'Server did not become ready in time' >&2
+  docker compose ps
+  exit 1
+}
 
 printf 'Waiting for gateway on port 8080...\n'
-for _ in {1..60}; do
-  if curl -fsS http://localhost:8080/users >/dev/null 2>&1; then
-    break
-  fi
-  sleep 1
- done
+curl -fsS --retry 120 --retry-connrefused --retry-delay 1 http://localhost:8080/users >/dev/null || {
+  echo 'Gateway did not become ready in time' >&2
+  docker compose ps
+  exit 1
+}
 
 printf 'Running project tests...\n'
 mvn test -DskipTests=false
