@@ -7,7 +7,6 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.shareit.item.Item;
 import ru.practicum.shareit.item.ItemMapper;
 import ru.practicum.shareit.item.dto.ItemShortDto;
 import ru.practicum.shareit.item.repository.ItemRepository;
