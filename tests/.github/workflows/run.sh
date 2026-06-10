@@ -15,14 +15,17 @@ if ! docker compose version >/dev/null 2>&1; then
 fi
 
 printf 'Starting Docker Compose environment...\n'
-docker compose up --build -d
+if ! docker compose up --build -d --wait --wait-timeout 180; then
+  printf 'Compose --wait failed, falling back to manual wait...\n'
+  docker compose up --build -d
 
-for _ in {1..60}; do
-  if docker compose ps --format json 2>/dev/null | grep -q '"State":"running"'; then
-    break
-  fi
-  sleep 1
- done
+  for _ in {1..60}; do
+    if docker compose ps --format json 2>/dev/null | grep -q '"State":"running"'; then
+      break
+    fi
+    sleep 1
+  done
+fi
 
 printf 'Waiting for server on port 9090...\n'
 for _ in {1..60}; do
