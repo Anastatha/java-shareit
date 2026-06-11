@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.shareit.booking.dto.BookingCreateDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.service.BookingService;
+import ru.practicum.shareit.constants.Headers;
 
 @RestController
 @RequestMapping(path = "/bookings")
@@ -27,7 +28,7 @@ public class BookingController {
 
 	@PostMapping
 	public BookingDto create(
-		@RequestHeader("X-Sharer-User-Id") Long userId,
+		@RequestHeader(Headers.USER_ID) Long userId,
 		@Valid @RequestBody BookingCreateDto bookingDto
 	) {
 		return bookingService.create(userId, bookingDto);
@@ -35,7 +36,7 @@ public class BookingController {
 
 	@PatchMapping("/{bookingId}")
 	public BookingDto approve(
-		@RequestHeader("X-Sharer-User-Id") Long userId,
+		@RequestHeader(Headers.USER_ID) Long userId,
 		@PathVariable Long bookingId,
 		@RequestParam boolean approved
 	) {
@@ -44,7 +45,7 @@ public class BookingController {
 
 	@GetMapping("/{bookingId}")
 	public BookingDto getById(
-		@RequestHeader("X-Sharer-User-Id") Long userId,
+		@RequestHeader(Headers.USER_ID) Long userId,
 		@PathVariable Long bookingId
 	) {
 		return bookingService.getById(userId, bookingId);
@@ -52,7 +53,7 @@ public class BookingController {
 
 	@GetMapping
 	public List<BookingDto> getAll(
-		@RequestHeader("X-Sharer-User-Id") Long userId,
+		@RequestHeader(Headers.USER_ID) Long userId,
 		@RequestParam(defaultValue = "ALL") BookingState state
 	) {
 		return bookingService.getAll(userId, state);
@@ -60,7 +61,7 @@ public class BookingController {
 
 	@GetMapping("/owner")
 	public List<BookingDto> getAllByOwner(
-		@RequestHeader("X-Sharer-User-Id") Long userId,
+		@RequestHeader(Headers.USER_ID) Long userId,
 		@RequestParam(defaultValue = "ALL") BookingState state
 	) {
 		return bookingService.getAllByOwner(userId, state);

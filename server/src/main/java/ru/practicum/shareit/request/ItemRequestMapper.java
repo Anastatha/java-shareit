@@ -18,8 +18,7 @@ public class ItemRequestMapper {
 				request.getDescription(),
 				request.getRequestor() != null ? request.getRequestor().getId() : null,
 				request.getCreated(),
-				items != null ? items : List.of()
-		);
+				items != null ? items : List.of());
 	}
 
 	public static ItemShortDto toShortDto(ru.practicum.shareit.item.Item item) {

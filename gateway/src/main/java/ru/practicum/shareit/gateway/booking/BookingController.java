@@ -15,6 +15,7 @@ import ru.practicum.shareit.booking.BookingState;
 import ru.practicum.shareit.booking.dto.BookingCreateDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.gateway.client.BookingClient;
+import ru.practicum.shareit.constants.Headers;
 
 @RestController
 @RequestMapping("/bookings")
@@ -28,42 +29,37 @@ public class BookingController {
 
 	@PostMapping
 	public BookingDto create(
-			@RequestHeader("X-Sharer-User-Id") Long userId,
-			@Valid @RequestBody BookingCreateDto bookingDto
-	) {
+			@RequestHeader(Headers.USER_ID) Long userId,
+			@Valid @RequestBody BookingCreateDto bookingDto) {
 		return bookingClient.create(userId, bookingDto);
 	}
 
 	@PatchMapping("/{bookingId}")
 	public BookingDto approve(
-			@RequestHeader("X-Sharer-User-Id") Long userId,
+			@RequestHeader(Headers.USER_ID) Long userId,
 			@PathVariable Long bookingId,
-			@RequestParam boolean approved
-	) {
+			@RequestParam boolean approved) {
 		return bookingClient.approve(userId, bookingId, approved);
 	}
 
 	@GetMapping("/{bookingId}")
 	public BookingDto getById(
-			@RequestHeader("X-Sharer-User-Id") Long userId,
-			@PathVariable Long bookingId
-	) {
+			@RequestHeader(Headers.USER_ID) Long userId,
+			@PathVariable Long bookingId) {
 		return bookingClient.getById(userId, bookingId);
 	}
 
 	@GetMapping
 	public List<BookingDto> getAll(
-			@RequestHeader("X-Sharer-User-Id") Long userId,
-			@RequestParam(defaultValue = "ALL") BookingState state
-	) {
+			@RequestHeader(Headers.USER_ID) Long userId,
+			@RequestParam(defaultValue = "ALL") BookingState state) {
 		return bookingClient.getAll(userId, state);
 	}
 
 	@GetMapping("/owner")
 	public List<BookingDto> getAllByOwner(
-			@RequestHeader("X-Sharer-User-Id") Long userId,
-			@RequestParam(defaultValue = "ALL") BookingState state
-	) {
+			@RequestHeader(Headers.USER_ID) Long userId,
+			@RequestParam(defaultValue = "ALL") BookingState state) {
 		return bookingClient.getAllByOwner(userId, state);
 	}
 }

@@ -1,8 +1,11 @@
 package ru.practicum.shareit.gateway.client;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.practicum.shareit.booking.BookingState;
 import ru.practicum.shareit.booking.dto.BookingCreateDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
@@ -11,10 +14,9 @@ import ru.practicum.shareit.booking.dto.BookingDto;
 public class BookingClient extends BaseClient {
 
 	public BookingClient(
-			org.springframework.web.client.RestTemplate restTemplate,
-			com.fasterxml.jackson.databind.ObjectMapper objectMapper,
-			@org.springframework.beans.factory.annotation.Value("${shareit.server-url}") String serverUrl
-	) {
+			RestTemplate restTemplate,
+			ObjectMapper objectMapper,
+			@Value("${shareit.server-url}") String serverUrl) {
 		super(restTemplate, objectMapper, serverUrl);
 	}
 
@@ -36,7 +38,8 @@ public class BookingClient extends BaseClient {
 	}
 
 	public List<BookingDto> getAllByOwner(Long userId, BookingState state) {
-		return get("/bookings/owner?state=" + state, jsonHeaders(userId), new ParameterizedTypeReference<List<BookingDto>>() {
-		});
+		return get("/bookings/owner?state=" + state, jsonHeaders(userId),
+				new ParameterizedTypeReference<List<BookingDto>>() {
+				});
 	}
 }

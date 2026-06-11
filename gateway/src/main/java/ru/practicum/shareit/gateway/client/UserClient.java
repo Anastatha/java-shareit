@@ -7,15 +7,17 @@ import org.springframework.stereotype.Component;
 import ru.practicum.shareit.user.dto.UserCreateDto;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.dto.UserUpdateDto;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.client.RestTemplate;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class UserClient extends BaseClient {
 
 	public UserClient(
-			org.springframework.web.client.RestTemplate restTemplate,
-			com.fasterxml.jackson.databind.ObjectMapper objectMapper,
-			@org.springframework.beans.factory.annotation.Value("${shareit.server-url}") String serverUrl
-	) {
+			RestTemplate restTemplate,
+			ObjectMapper objectMapper,
+			@Value("${shareit.server-url}") String serverUrl) {
 		super(restTemplate, objectMapper, serverUrl);
 	}
 

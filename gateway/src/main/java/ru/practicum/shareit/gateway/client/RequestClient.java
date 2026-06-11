@@ -5,15 +5,17 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.request.dto.ItemRequestCreateDto;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.client.RestTemplate;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class RequestClient extends BaseClient {
 
 	public RequestClient(
-			org.springframework.web.client.RestTemplate restTemplate,
-			com.fasterxml.jackson.databind.ObjectMapper objectMapper,
-			@org.springframework.beans.factory.annotation.Value("${shareit.server-url}") String serverUrl
-	) {
+			RestTemplate restTemplate,
+			ObjectMapper objectMapper,
+			@Value("${shareit.server-url}") String serverUrl) {
 		super(restTemplate, objectMapper, serverUrl);
 	}
 

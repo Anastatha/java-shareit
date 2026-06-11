@@ -23,11 +23,10 @@ public class ItemMapper {
     }
 
     public static ItemDto toItemDto(
-        Item item,
-        LocalDateTime lastBooking,
-        LocalDateTime nextBooking,
-        List<CommentDto> comments
-    ) {
+            Item item,
+            LocalDateTime lastBooking,
+            LocalDateTime nextBooking,
+            List<CommentDto> comments) {
         if (item == null) {
             return null;
         }
@@ -56,11 +55,10 @@ public class ItemMapper {
     }
 
     public static ItemDetailsDto toItemDetailsDto(
-        Item item,
-        LocalDateTime lastBooking,
-        LocalDateTime nextBooking,
-        List<CommentDto> comments
-    ) {
+            Item item,
+            LocalDateTime lastBooking,
+            LocalDateTime nextBooking,
+            List<CommentDto> comments) {
         if (item == null) {
             return null;
         }
@@ -77,11 +75,10 @@ public class ItemMapper {
             return null;
         }
         return new CommentDto(
-            comment.getId(),
-            comment.getText(),
-            comment.getAuthor() != null ? comment.getAuthor().getName() : null,
-            comment.getCreated()
-        );
+                comment.getId(),
+                comment.getText(),
+                comment.getAuthor() != null ? comment.getAuthor().getName() : null,
+                comment.getCreated());
     }
 
     public static ItemShortDto toItemShortDto(Item item) {
@@ -91,8 +88,7 @@ public class ItemMapper {
         return new ItemShortDto(
                 item.getId(),
                 item.getName(),
-                item.getOwner() != null ? item.getOwner().getId() : null
-        );
+                item.getOwner() != null ? item.getOwner().getId() : null);
     }
 
     public static Item toItem(ItemDto itemDto) {

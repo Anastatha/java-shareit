@@ -19,6 +19,7 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemCreateDto;
 import ru.practicum.shareit.item.dto.ItemUpdateDto;
 import ru.practicum.shareit.item.service.ItemService;
+import ru.practicum.shareit.constants.Headers;
 
 @RestController
 @RequestMapping("/items")
@@ -32,18 +33,16 @@ public class ItemController {
 
     @PostMapping
     public ItemDto create(
-            @RequestHeader("X-Sharer-User-Id") Long userId,
-            @Valid @RequestBody ItemCreateDto itemDto
-    ) {
+            @RequestHeader(Headers.USER_ID) Long userId,
+            @Valid @RequestBody ItemCreateDto itemDto) {
         return itemService.create(userId, itemDto);
     }
 
     @PatchMapping("/{itemId}")
     public ItemDto update(
-            @RequestHeader("X-Sharer-User-Id") Long userId,
+            @RequestHeader(Headers.USER_ID) Long userId,
             @PathVariable Long itemId,
-            @Valid @RequestBody ItemUpdateDto itemDto
-    ) {
+            @Valid @RequestBody ItemUpdateDto itemDto) {
         return itemService.update(userId, itemId, itemDto);
     }
 
@@ -53,7 +52,7 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemDto> getAll(@RequestHeader("X-Sharer-User-Id") Long userId) {
+    public List<ItemDto> getAll(@RequestHeader(Headers.USER_ID) Long userId) {
         return itemService.getAll(userId);
     }
 
@@ -64,10 +63,9 @@ public class ItemController {
 
     @PostMapping("/{itemId}/comment")
     public CommentDto addComment(
-            @RequestHeader("X-Sharer-User-Id") Long userId,
+            @RequestHeader(Headers.USER_ID) Long userId,
             @PathVariable Long itemId,
-            @Valid @RequestBody CommentCreateDto commentDto
-    ) {
+            @Valid @RequestBody CommentCreateDto commentDto) {
         return itemService.addComment(userId, itemId, commentDto);
     }
 }

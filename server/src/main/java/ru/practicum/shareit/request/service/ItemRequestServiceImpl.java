@@ -28,8 +28,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
 	public ItemRequestServiceImpl(
 			ItemRequestRepository itemRequestRepository,
 			ItemRepository itemRepository,
-			UserRepository userRepository
-	) {
+			UserRepository userRepository) {
 		this.itemRequestRepository = itemRequestRepository;
 		this.itemRepository = itemRepository;
 		this.userRepository = userRepository;
@@ -67,7 +66,8 @@ public class ItemRequestServiceImpl implements ItemRequestService {
 		getUser(userId);
 		ItemRequest request = itemRequestRepository.findById(requestId)
 				.orElseThrow(() -> new NoSuchElementException("Item request not found"));
-		return ItemRequestMapper.toDto(request, getItemsByRequestIds(List.of(request.getId())).getOrDefault(request.getId(), List.of()));
+		return ItemRequestMapper.toDto(request,
+				getItemsByRequestIds(List.of(request.getId())).getOrDefault(request.getId(), List.of()));
 	}
 
 	private List<ItemRequestDto> toDtos(List<ItemRequest> requests) {
